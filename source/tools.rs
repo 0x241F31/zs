@@ -81,6 +81,10 @@ impl AndroidBuildTools {
 		self.root.join("apksigner")
 	}
 
+	pub fn apksigner_jar(&self) -> PathBuf {
+		self.root.join("lib/apksigner.jar")
+	}
+
 	pub fn d8_jar(&self) -> PathBuf {
 		self.root.join("lib/d8.jar")
 	}

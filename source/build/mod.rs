@@ -148,8 +148,12 @@ async fn compile_java(ctx: &BuildContext) -> AppResult<Vec<PathBuf>> {
 	cmd.arg("-source").arg("17");
 	cmd.arg("-target").arg("17");
 	cmd.args(ctx.java.as_slice());
+
 	let package = ctx.package.replace('.', "/");
-	cmd.arg(ctx.workdir.java().join(package).join("R.java"));
+	let r = ctx.workdir.java().join(package).join("R.java");
+	let exist = fs::try_exists(&r).await?;
+	exist.then(|| cmd.arg(r));
+
 	cmd.arg("-d").arg(ctx.workdir.java());
 	cmd.arg("-encoding").arg("UTF-8");
 	cmd.arg("-Xlint");

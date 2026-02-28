@@ -55,7 +55,7 @@ pub async fn exec_at(cwd: impl AsRef<Path>, mut cmd: Command) -> AppResult<proce
 	let (stdout, stderr, status) = tokio::try_join!(stdout_future, stderr_future, child_future)?;
 	let output = process::Output { status, stdout, stderr };
 
-	ensure!(output.status.success(), "Process failed ({status}): {pretty}");
+	ensure!(output.status.success(), "Process failed, {status}");
 
 	Ok(output)
 }
