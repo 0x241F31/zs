@@ -59,7 +59,7 @@ pub unsafe extern "system" fn constructor(vm: *mut jni::sys::JavaVM, _: *mut c_v
 }
 
 static ANIM: LazyLock<velato::Composition> =
-	LazyLock::new(|| velato::Composition::from_slice(include_bytes!("../assets/slot-machine.json")).unwrap());
+	LazyLock::new(|| velato::Composition::from_slice(include_bytes!("../assets/crystal-ball.json")).unwrap());
 
 fn initialize(vm: jni::JavaVM) -> JniResult {
 	std::panic::set_hook(Box::new(|e| alog!("{}", e.to_string())));

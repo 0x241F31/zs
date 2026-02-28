@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="this_file">is needed for aapt to generate R.java, because it will omit it if there are no resources.</string>
+</resources>
