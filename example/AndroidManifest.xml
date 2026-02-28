@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<manifest package="com.example.zs" xmlns:android="http://schemas.android.com/apk/res/android" >
+	<application>
+		<activity android:name=".MainActivity" android:exported="true" android:theme="@android:style/Theme.NoTitleBar">
+			<intent-filter>
+				<category android:name="android.intent.category.LAUNCHER" />
+				<action android:name="android.intent.action.MAIN"/>
+			</intent-filter>
+		</activity>
+	</application>
+</manifest>

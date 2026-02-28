@@ -1,0 +1,56 @@
+cargo-features = ["trim-paths"]
+
+[profile.dev]
+trim-paths = "all"
+
+[profile.release]
+trim-paths = "all"
+
+[package]
+name = "zs"
+edition = "2024"
+
+[lib]
+name = "zs"
+path = "source/lib.rs"
+
+[[bin]]
+name = "zs"
+path = "source/main.rs"
+
+[dependencies]
+# extensions
+anyhow = { version = "1" }
+
+# frameworks
+tracing = { version = "0.1", default-features = false, features = [
+	"std",
+] }
+tracing-subscriber = { version = "0.3", default-features = false, features = [
+	"std",
+	"ansi",
+	"smallvec",
+	"chrono",
+	"tracing-log",
+] }
+tracing-log = { version = "0.2" }
+
+tokio = { version = "1", default-features = false, features = [
+	"tracing",
+	"macros",
+	"fs",
+	"io-util",
+	"io-std",
+	"process",
+] }
+reqwest = { version = "0.12", default-features = false, features = [
+	"rustls-tls",
+] }
+
+zip = { version = "8", default-features = false, features = ["deflate"] }
+
+# cli
+lexopt = { version = "0.3" }
+owo-colors = { version = "4.2.3", default-features = false, features = [
+	"alloc",
+] }
