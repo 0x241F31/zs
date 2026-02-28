@@ -8,12 +8,14 @@ use crate::{AppResult, tools};
 pub struct Opts {
 	pub apk: PathBuf,
 	pub keystore: PathBuf,
-	pub build_tools: tools::AndroidBuildTools,
+	pub build_tools: PathBuf,
 }
 
 pub async fn run(opts: Opts) -> AppResult {
+	let build_tools = tools::AndroidBuildTools::new(opts.build_tools);
+
 	let mut cmd = Command::new("java");
-	cmd.arg("-jar").arg(opts.build_tools.apksigner_jar());
+	cmd.arg("-jar").arg(build_tools.apksigner_jar());
 	cmd.arg("sign");
 	cmd.arg("--ks").arg(opts.keystore);
 	cmd.arg("--ks-key-alias").arg("android");
