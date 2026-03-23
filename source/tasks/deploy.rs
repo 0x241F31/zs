@@ -9,21 +9,24 @@ pub struct Opts {
 	pub apk: PathBuf,
 	pub package: String,
 	pub launch: bool,
+	pub device: Option<String>,
 }
 
 pub async fn run(opts: Opts) -> AppResult {
-	_ = uninstall(&opts.package).await;
-	install(&opts.apk).await?;
+	_ = uninstall(opts.device.as_ref(), &opts.package).await;
+	install(opts.device.as_ref(), &opts.apk).await?;
 
 	if opts.launch {
-		launch(&opts.package).await?;
+		launch(opts.device.as_ref(), &opts.package).await?;
 	}
 
 	Ok(())
 }
 
-async fn uninstall(pkg: &str) -> AppResult {
+async fn uninstall(device: Option<&String>, pkg: &str) -> AppResult {
 	let mut cmd = Command::new("adb");
+
+	device.map(|t| cmd.arg("-s").arg(t));
 	cmd.arg("uninstall").arg(pkg);
 
 	let out = exec(cmd).await?;
@@ -32,8 +35,10 @@ async fn uninstall(pkg: &str) -> AppResult {
 	Ok(())
 }
 
-async fn install(apk: &PathBuf) -> AppResult {
+async fn install(device: Option<&String>, apk: &PathBuf) -> AppResult {
 	let mut cmd = Command::new("adb");
+
+	device.map(|t| cmd.arg("-s").arg(t));
 	cmd.arg("install").arg(apk);
 
 	exec(cmd).await?;
@@ -41,9 +46,10 @@ async fn install(apk: &PathBuf) -> AppResult {
 	Ok(())
 }
 
-async fn launch(pkg: &str) -> AppResult {
+async fn launch(device: Option<&String>, pkg: &str) -> AppResult {
 	let mut cmd = Command::new("adb");
 
+	device.map(|t| cmd.arg("-s").arg(t));
 	cmd.arg("shell").arg("am");
 	cmd.arg("start").arg("-n").arg(format!("{pkg}/.MainActivity"));
 

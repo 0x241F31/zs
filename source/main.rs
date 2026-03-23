@@ -55,23 +55,15 @@ async fn main_async(cmd: Command) -> AppResult {
 			build::run(opts).await
 		}
 		Command::Sign(args) => {
-			let opts = sign::Opts {
-				apk: args.apk,
-				keystore: args.keystore,
-				build_tools: tools::AndroidBuildTools::new(args.android_build_tools),
-			};
+			let opts = sign::Opts { apk: args.apk, keystore: args.keystore, build_tools: args.android_build_tools };
 			sign::run(opts).await
 		}
 		Command::Deploy(args) => {
-			let opts = deploy::Opts { apk: args.apk, package: args.package, launch: args.launch };
+			let opts = deploy::Opts { apk: args.apk, package: args.package, launch: args.launch, device: args.device };
 			deploy::run(opts).await
 		}
 		Command::Fetch(args) => {
-			let opts = fetch::Opts {
-				output: args.output,
-				dependencies: args.dependencies,
-				coursier: args.coursier,
-			};
+			let opts = fetch::Opts { output: args.output, dependencies: args.dependencies, coursier: args.coursier };
 			fetch::run(opts).await
 		}
 	}

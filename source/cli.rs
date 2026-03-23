@@ -216,12 +216,14 @@ pub struct DeployArgs {
 	pub apk: PathBuf,
 	pub package: String,
 	pub launch: bool,
+	pub device: Option<String>,
 }
 
 fn parse_deploy_args(cwd: &Path, p: &mut Parser) -> AppResult<Command> {
 	let mut apk = None;
 	let mut package = None;
 	let mut launch = false;
+	let mut device = None;
 
 	while let Some(arg) = p.next()? {
 		match arg {
@@ -232,6 +234,11 @@ fn parse_deploy_args(cwd: &Path, p: &mut Parser) -> AppResult<Command> {
 			}
 			Arg::Long("launch") => {
 				launch = true;
+			}
+			Arg::Long("device") => {
+				let value = p.value()?;
+				let value = value.string()?;
+				device = value.into();
 			}
 			Arg::Value(value) => {
 				ensure!(apk.is_none(), "unexpected extra positional argument");
@@ -246,7 +253,7 @@ fn parse_deploy_args(cwd: &Path, p: &mut Parser) -> AppResult<Command> {
 	let apk = apk.context("missing apk path after `deploy`")?;
 	let package = package.context("missing --package")?;
 
-	Ok(Command::Deploy(DeployArgs { apk, package, launch }))
+	Ok(Command::Deploy(DeployArgs { apk, package, launch, device }))
 }
 
 // =========================================================================

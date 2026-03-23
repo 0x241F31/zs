@@ -3,7 +3,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 >
 	<uses-sdk
-		android:minSdkVersion="21"
+		android:minSdkVersion="29"
 		android:targetSdkVersion="36"
 	/>
 	<application>

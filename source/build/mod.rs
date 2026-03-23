@@ -202,8 +202,8 @@ async fn package_apk(ctx: &BuildContext) -> AppResult {
 
 	let mut cmd = Command::new(ctx.build_tools.aapt());
 	cmd.args(["package", "-f"]);
-	cmd.arg("--min-sdk-version").arg("21");
-	cmd.arg("--target-sdk-version").arg("36");
+	// cmd.arg("--min-sdk-version").arg("21");
+	// cmd.arg("--target-sdk-version").arg("36");
 	cmd.arg("--error-on-failed-insert");
 	cmd.arg("--error-on-missing-config-entry");
 	cmd.arg("--debug-mode");
